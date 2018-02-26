@@ -1,68 +1,65 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <!-- Normalize.css for better cross-browser consistency -->
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Eat | Restaurant Info</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Eat restaurant info">
+  <meta name="keywords" content="Eat restaurant reviews info">
+  <meta name="author" content="Tatiana Passarella">
+  <meta name="robots" content="index,follow" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
-  <title>Restaurant Info</title>
+  <link rel="stylesheet" href="css/styles.css">
+   <!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
 </head>
 
 <body class="inside">
-  <!-- Beginning header -->
-  <header>
-      <h1><img id="logo" src="/img/logo.svg" alt=""> EAT &#12307;INFO&#12307;</h1>
-  </header>
-  <!-- End header -->
-  <main id="maincontent">
-  <!-- Beginning main -->
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
-    <!-- End map -->
-    <!-- Beginning restaurant -->
-    <section id="restaurant-container">
-      <!-- Beginning nav -->
-      <nav>
-        <!-- Beginning breadcrumb -->
-        <ul id="breadcrumb" >
-           <li><a href="/">Home</a></li>
-        </ul>
-        <!-- End breadcrumb -->
-      </nav>
-      <!-- End nav -->
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
-    </section>
-    <!-- end restaurant -->
-    <!-- Beginning reviews -->
-    <section id="reviews-container">
-      <ul id="reviews-list"></ul>
-    </section>
-    <!-- End reviews -->
-  </main>
-  <!-- End main -->
+	<div id="container">
+		<header>
+			<h1><img id="logo" src="/img/logo.svg" alt=""> EAT &#12307;INFO&#12307;</h1>
+		</header>
 
-  <!-- Beginning footer -->
-  <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-  </footer>
-  <!-- End footer -->
+		<main id="maincontent">
+			<section id="map-container">
+				<div id="map"></div>
+			</section>
+			<nav>
+				<ul id="breadcrumb" >
+						<li><a href="/">Home</a></li>
+				</ul>
+			</nav>
+			<div id="info-container">
+				<section id="restaurant-container">
+					<div id="the-restaurant">
+						<h1 id="restaurant-name"></h1>
+						<img id="restaurant-img">
+						<p id="restaurant-cuisine"></p>
+						<p id="restaurant-address"></p>
+						<table id="restaurant-hours"></table>
+					</div>
+				</section>
+				<section id="reviews-container">
+						<ul id="reviews-list"></ul>
+				</section>
+			</div>
+	  </main>
+	  <!-- End main -->
 
-  <!-- Beginning scripts -->
+	  <!-- Beginning footer -->
+	  <footer id="footer">
+		 Copyright (c) 2018 <a href="/"><strong>EAT Restaurant Reviews</strong></a> All Rights Reserved.
+	  </footer>
+  	</div><!-- end container -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script>
-  <!-- End scripts -->
-
 </body>
-
 </html>
