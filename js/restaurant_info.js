@@ -53,12 +53,22 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   name.innerHTML = restaurant.name;
 
   const address = document.getElementById('restaurant-address');
-  address.innerHTML = restaurant.address;
+  address.innerHTML = `<b>${restaurant.address}</b>`;
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = restaurant.name + ' Restaurant Image';
+
+  const imgSrc = DBHelper.imageUrlForRestaurant(restaurant);
+  const parts = imgSrc.match(/[^\.]+/);
+  const imgNum = parts[0];
+  const imgS = `${imgNum}_s.jpg`;
+  const imgM = `${imgNum}_m.jpg`;
+  const imgL = imgSrc;
+  const imgSrcset = `${imgS} 500w, ${imgM} 800w, ${imgL} 1200w`;
+  image.src = imgS;
+  image.setAttribute('srcset', imgSrcset);
+
+  image.alt = restaurant.name + ' restaurant image';
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -80,7 +90,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     const row = document.createElement('tr');
 
     const day = document.createElement('td');
-    day.innerHTML = key;
+    day.innerHTML = `<b>${key}</b>`;
     row.appendChild(day);
 
     const time = document.createElement('td');
@@ -128,6 +138,7 @@ createReviewHTML = (review) => {
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.classList.add("txt_b");
   li.appendChild(rating);
 
   const comments = document.createElement('p');

@@ -24,13 +24,13 @@
 			<h1><img id="logo" src="/img/logo.svg" alt=""> EAT &#12307;INFO&#12307;</h1>
 		</header>
 
-		<main id="maincontent">
-			<section id="map-container">
+		<main id="maincontent" role="main">
+			<section id="map-container" tabindex="1" role="application">
 				<div id="map"></div>
 			</section>
 			<nav>
-				<ul id="breadcrumb" >
-						<li><a href="/">Home</a></li>
+				<ul id="breadcrumb" aria-label="breadcrumb">
+						<li><a href="/" tabindex="2" aria-label="Link to Home">Home</a></li>
 				</ul>
 			</nav>
 			<div id="info-container">
