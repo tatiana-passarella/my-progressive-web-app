@@ -3,15 +3,35 @@ let restaurants,
   cuisines
 var map
 var markers = []
-
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  registerServiceWorker();
 });
+/**
+ * Register service worker
+ */
+registerServiceWorker = () => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then((reg) => {
+                console.log('Service worker registration successful with scope: ', reg.scope);
+                if (reg.installing) {
+                    console.log('Service worker installing');
+                } else if (reg.waiting) {
+                    console.log('Service worker installed');
+                } else if (reg.active) {
+                    console.log('Service worker active');
+                }
 
+            }).catch((error) => {
+            // registration failed
+            console.log('Registration failed with ' + error);
+        });
+    }
+}
 /**
  * Fetch all neighborhoods and set their HTML.
  */
