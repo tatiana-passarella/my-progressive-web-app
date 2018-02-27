@@ -10,7 +10,7 @@ body,td,th,p{
 }
 body {
   font-family: Lato,sans-serif;
-	background-color: #dcdcdc;
+	background-color: #c3c3c3;
 	margin: 0;
 	position:relative;
 }
@@ -174,7 +174,6 @@ header h1 {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
   min-width: 100%;
 }
 #restaurants-list li h1 {
