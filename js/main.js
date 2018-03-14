@@ -90,7 +90,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
+ window.initMap = () => {
   let loc = {
     lat: 40.722216,
     lng: -73.987501
@@ -149,6 +149,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
+  lozad().observe();
   addMarkersToMap();
 }
 
@@ -159,13 +160,13 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  const imgSrc = DBHelper.imageUrlForRestaurant(restaurant);
-  const parts = imgSrc.match(/[^\.]+/);
+  image.className = 'restaurant-img lozad';
+  const theImg = DBHelper.imageUrlForRestaurant(restaurant);
+  const parts = theImg.match(/[^\.]+/);
   const imgNum = parts[0];
-  const imgSmall = imgNum+'_s.jpg';
-  image.src = imgSmall;
-  image.alt = restaurant.name + ' restaurant image';
+  const imgSmall = `${imgNum}_s.jpg`;
+  image.dataset.src = imgSmall;
+  image.alt = `${restaurant.name} restaurant image`;
   li.append(image);
 
   const name = document.createElement('h1');

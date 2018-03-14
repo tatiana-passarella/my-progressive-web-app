@@ -1,22 +1,25 @@
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open('mws-restaurant-stage-1').then(cache => {
+    caches.open('eat-restaurant-review_stage-1').then(cache => {
       return cache.addAll([
         '/',
-        '/css/styles.css',
-        '/js/dbhelper.js',
-        '/js/main.js',
-        '/data/restaurants.json',
-        '/img/1_s.jpg',
-        '/img/2_s.jpg',
-        '/img/3_s.jpg',
-        '/img/4_s.jpg',
-        '/img/5_s.jpg',
-        '/img/6_s.jpg',
-        '/img/7_s.jpg',
-        '/img/8_s.jpg',
-        '/img/9_s.jpg',
-        '/img/10_s.jpg',
+        'index.html',
+        'restaurant.html',
+        'img/logo.svg',
+        'css/styles.css',
+        'js/dbhelper.js',
+        'js/main.js',
+        'data/restaurants.json',
+        'img/1_s.jpg',
+        'img/2_s.jpg',
+        'img/3_s.jpg',
+        'img/4_s.jpg',
+        'img/5_s.jpg',
+        'img/6_s.jpg',
+        'img/7_s.jpg',
+        'img/8_s.jpg',
+        'img/9_s.jpg',
+        'img/10_s.jpg',
       ]);
     })
   )

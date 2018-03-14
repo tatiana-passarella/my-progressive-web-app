@@ -56,7 +56,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = `<b>${restaurant.address}</b>`;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img lozad'
 
   const imgSrc = DBHelper.imageUrlForRestaurant(restaurant);
   const parts = imgSrc.match(/[^\.]+/);
@@ -65,7 +65,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const imgM = `${imgNum}_m.jpg`;
   const imgL = imgSrc;
   const imgSrcset = `${imgS} 500w, ${imgM} 800w, ${imgL} 1200w`;
-  image.src = imgS;
+  image.src = `${imgNum}.webp`;
   image.setAttribute('srcset', imgSrcset);
 
   image.alt = restaurant.name + ' restaurant image';
