@@ -9,29 +9,7 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
-  registerServiceWorker();
 });
-/**
- * Register service worker
- */
-registerServiceWorker = () => {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then((reg) => {
-                console.log('Service worker registration successful with scope: ', reg.scope);
-                if (reg.installing) {
-                    console.log('Service worker installing');
-                } else if (reg.waiting) {
-                    console.log('Service worker installed');
-                } else if (reg.active) {
-                    console.log('Service worker active');
-                }
-
-            }).catch((error) => {
-            // registration failed
-            console.log('Registration failed with ' + error);
-        });
-    }
-}
 /**
  * Fetch all neighborhoods and set their HTML.
  */
@@ -169,7 +147,7 @@ createRestaurantHTML = (restaurant) => {
   image.alt = `${restaurant.name} restaurant image`;
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
 
@@ -183,7 +161,7 @@ createRestaurantHTML = (restaurant) => {
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
-  more.tabIndex = 4;
+  more.tabIndex = 0;
   more.setAttribute('aria-label', 'View restaurant info');
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)

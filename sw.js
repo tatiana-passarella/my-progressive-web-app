@@ -6,7 +6,7 @@ self.addEventListener('install', event => {
         'index.html',
         'restaurant.html',
         'img/logo.svg',
-        'css/styles.css',
+        'css/dist/styles.min.css',
         'js/dbhelper.js',
         'js/main.js',
         'data/restaurants.json',
@@ -20,15 +20,21 @@ self.addEventListener('install', event => {
         'img/8_s.jpg',
         'img/9_s.jpg',
         'img/10_s.jpg',
+        'js/lozad.min.js',
       ]);
     })
   )
 });
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
-    })
-  );
+self.addEventListener('fetch', function (event) {
+    event.respondWith(
+        caches.open('eat-restaurant-review_stage-1').then(function (cache) {
+            return cache.match(event.request).then(function (response) {
+                return response || fetch(event.request).then(function (response) {
+                    cache.put(event.request, response.clone());
+                    return response;
+                });
+            });
+        })
+    );
 });

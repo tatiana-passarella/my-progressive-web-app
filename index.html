@@ -21,7 +21,7 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" media="screen">
-	<link async defer rel="stylesheet" href="css/dist/styles.min.css" media="screen">
+	<link rel="stylesheet" href="css/dist/styles.min.css" media="screen">
 </head>
 
 <body>
@@ -32,15 +32,15 @@
 
 	 	<main id="maincontent">
 			<section id="map-container" role="application">
-				<div id="map" tabindex="1"></div>
+				<div id="map" aria-hidden="true"></div>
 			</section>
 			<section id="result-container">
 				<div class="filter-options">
 					<h2><b>&mdash; FILTERS &mdash;</b></h2>
-					<select id="neighborhoods-select" tabindex="2" name="neighborhoods" aria-label="Select neighborhood" onchange="updateRestaurants()">
+					<select id="neighborhoods-select" tabindex="0" name="neighborhoods" aria-label="Select neighborhood" onchange="updateRestaurants()">
 						<option value="all">All Neighborhoods</option>
 					</select>
-					<select id="cuisines-select" tabindex="3" name="cuisines" aria-label="Select cuisine type" onchange="updateRestaurants()">
+					<select id="cuisines-select" tabindex="0" name="cuisines" aria-label="Select cuisine type" onchange="updateRestaurants()">
 					<option value="all">All Cuisines</option>
 					</select>
 				</div>
@@ -54,7 +54,7 @@
 			Copyright (c) 2018 <a href="/"><strong>EAT Restaurant Reviews</strong></a> All Rights Reserved.
 		</footer>
 	</div><!-- end container -->
-
+<script type="application/javascript" charset="utf-8" src="js/register_sw.js"></script>
 <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
 <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHdZ_s6Gnq8k1okOEEBrRvvmG9W2DlZXg&libraries=places&callback=initMap"></script>
