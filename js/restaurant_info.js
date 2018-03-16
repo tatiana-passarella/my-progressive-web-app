@@ -65,7 +65,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const imgM = `${imgNum}_m.jpg`;
   const imgL = imgSrc;
   const imgSrcset = `${imgS} 500w, ${imgM} 800w, ${imgL} 1200w`;
-  image.src = `${imgNum}.webp`;
+  image.src = `${imgNum}_s.jpg`;
   image.setAttribute('srcset', imgSrcset);
 
   image.alt = restaurant.name + ' restaurant image';

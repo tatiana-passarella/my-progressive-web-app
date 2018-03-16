@@ -9,7 +9,29 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  registerServiceWorker();
 });
+/**
+ * Register service worker
+ */
+registerServiceWorker = () => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then((reg) => {
+                console.log('Service worker registration successful with scope: ', reg.scope);
+                if (reg.installing) {
+                    console.log('Service worker installing');
+                } else if (reg.waiting) {
+                    console.log('Service worker installed');
+                } else if (reg.active) {
+                    console.log('Service worker active');
+                }
+
+            }).catch((error) => {
+            // registration failed
+            console.log('Registration failed with ' + error);
+        });
+    }
+}
 /**
  * Fetch all neighborhoods and set their HTML.
  */
@@ -127,7 +149,6 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
-  lozad().observe();
   addMarkersToMap();
 }
 
@@ -135,6 +156,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
+  lozad().observe();
   const li = document.createElement('li');
 
   const image = document.createElement('img');
@@ -143,6 +165,7 @@ createRestaurantHTML = (restaurant) => {
   const parts = theImg.match(/[^\.]+/);
   const imgNum = parts[0];
   const imgSmall = `${imgNum}_s.jpg`;
+  image.src = imgSmall;
   image.dataset.src = imgSmall;
   image.alt = `${restaurant.name} restaurant image`;
   li.append(image);
@@ -161,7 +184,7 @@ createRestaurantHTML = (restaurant) => {
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
-  more.tabIndex = 0;
+  more.tabIndex = 4;
   more.setAttribute('aria-label', 'View restaurant info');
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
