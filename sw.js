@@ -1,6 +1,6 @@
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open('eat-restaurant-review_stage-1').then(cache => {
+    caches.open('EAT_restaurant-review_stage2').then(cache => {
       return cache.addAll([
         '/',
         'index.html',
@@ -9,7 +9,7 @@ self.addEventListener('install', event => {
         'css/styles.css',
         'js/dbhelper.js',
         'js/main.js',
-        'data/restaurants.json',
+        'js/restaurant_info.js',
         'img/1_s.jpg',
         'img/2_s.jpg',
         'img/3_s.jpg',
@@ -25,10 +25,15 @@ self.addEventListener('install', event => {
   )
 });
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
-    })
-  );
+self.addEventListener('fetch', function (event) {
+    event.respondWith(
+        caches.open('EAT_restaurant-review_stage2').then(function (cache) {
+            return cache.match(event.request).then(function (response) {
+                return response || fetch(event.request).then(function (response) {
+                    cache.put(event.request, response.clone());
+                    return response;
+                });
+            });
+        })
+    );
 });

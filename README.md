@@ -24,5 +24,11 @@ In a terminal, check the version of Python you have: `python -V`. If you have Py
 
 Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
 
+### My notes ###
+
+As base to write my indexedDB I used this resources:
+https://gist.github.com/BigstickCarpet/a0d6389a5d0e3a24814b
+https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+
 
 

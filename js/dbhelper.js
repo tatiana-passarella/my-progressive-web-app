@@ -1,15 +1,86 @@
 /**
  * Common database helper functions.
  */
-class DBHelper {
 
+class DBHelper {
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
+  }
+
+    static myDB(restaurants) {
+    // This works on all devices/browsers, and uses IndexedDBShim as a final fallback 
+    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+
+    // Open (or create) the database
+    var open = indexedDB.open("RestaurantDB", 1);
+
+    if (!window.indexedDB) {
+        window.alert("Your browser doesn't support IndexedDB.");
+    }
+    // Open database
+    var open = indexedDB.open("EAT-RestaurantDB", 1);
+
+    // Create table
+    open.onupgradeneeded = function() {
+      var db = open.result;
+      var store = db.createObjectStore("Restaurants", { keyPath: "id" });
+      var index = store.createIndex("by-id", "id");
+    };
+
+    open.onerror = function(err) {
+      console.error("IndexedDB error: " + err.target.errorCode);
+    }
+
+    open.onsuccess = function() {
+      var db = open.result;
+      var tx = db.transaction("Restaurants", "readwrite");
+      var store = tx.objectStore("Restaurants");
+      var index = store.index("by-id");
+
+      // Add restaurants data
+      restaurants.forEach(function(restaurant) {
+        store.put(restaurant);
+      });
+      // Close DB
+      tx.oncomplete = function() {
+        db.close();
+      };
+    }
+  }
+
+  static getData(callback) {
+    var restaurants = [];
+
+    window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+    window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {READ_WRITE: "readwrite"}; 
+    window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+
+    if (!window.indexedDB) {
+        window.alert("Your browser doesn't support IndexedDB.");
+    }
+    // Open database
+    var open = indexedDB.open("EAT-RestaurantDB", 1);
+
+    open.onsuccess = function() {
+      var db = open.result;
+      var tx = db.transaction("Restaurants", "readwrite");
+      var store = tx.objectStore("Restaurants");
+      var getData = store.getAll();
+
+      getData.onsuccess = function() {
+        callback(null, getData.result);
+      }
+      // Close DB
+      tx.oncomplete = function() {
+        db.close();
+      };
+    }
+
   }
 
   /**
@@ -18,16 +89,27 @@ class DBHelper {
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
+
+    xhr.onerror = () => {
+      DBHelper.getData((error, restaurants) => {
+        if (restaurants.length > 0) {
+          console.log('Unable to fetch data from server. Using cache data instead');
+          callback(null, restaurants);
+        }
+      });
+    }
+
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
+        const restaurants = JSON.parse(xhr.responseText);
+        DBHelper.myDB(restaurants); // Cache restaurants
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
         callback(error, null);
       }
     };
+
     xhr.send();
   }
 
@@ -150,7 +232,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`/img/${restaurant.id}.jpg`);
   }
 
   /**
@@ -162,9 +244,8 @@ class DBHelper {
       title: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
-      animation: google.maps.Animation.DROP}
-    );
+      animation: google.maps.Animation.DROP
+    });
     return marker;
   }
-
 }
