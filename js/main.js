@@ -168,6 +168,7 @@ createRestaurantHTML = (restaurant) => {
   image.src = imgSmall;
   image.dataset.src = imgSmall;
   image.alt = `${restaurant.name} restaurant image`;
+  image.setAttribute('role', 'img');
   li.append(image);
 
   const name = document.createElement('h2');
