@@ -3,6 +3,7 @@ let restaurants,
   cuisines
 var map
 var markers = []
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -142,19 +143,9 @@ resetRestaurants = (restaurants) => {
 }
 
 /**
- * Create all restaurants HTML and add them to the webpage.
- */
-fillRestaurantsHTML = (restaurants = self.restaurants) => {
-  const ul = document.getElementById('restaurants-list');
-  restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant));
-  });
-  addMarkersToMap();
-}
-
-/**
  * Create restaurant HTML.
  */
+
 createRestaurantHTML = (restaurant) => {
   lozad().observe();
   const li = document.createElement('li');
@@ -185,14 +176,13 @@ createRestaurantHTML = (restaurant) => {
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
-  more.tabIndex = 4;
+  more.tabIndex = 0;
   more.setAttribute('aria-label', 'View restaurant info');
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  li.append(more);
 
-  return li
+  return li;
 }
-
 /**
  * Add markers for current restaurants to the map.
  */
@@ -205,4 +195,21 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+}
+/**
+ * Create all restaurants HTML and add them to the webpage.
+ */
+restaurantCounter = (resultCounter) => {
+  const mySpan = document.getElementById('results');
+  mySpan.innerHTML = resultCounter;
+}
+let resultCounter = 0;
+fillRestaurantsHTML = (restaurants = self.restaurants) => {
+  const ul = document.getElementById('restaurants-list');
+  restaurants.forEach(restaurant => {
+    resultCounter++;
+    ul.append(createRestaurantHTML(restaurant));
+  });
+  addMarkersToMap();
+  restaurantCounter(resultCounter);
 }
