@@ -156,11 +156,10 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
-  lozad().observe();
   const li = document.createElement('li');
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img lozad';
+  image.className = 'restaurant-img';
   const theImg = DBHelper.imageUrlForRestaurant(restaurant);
   const parts = theImg.match(/[^\.]+/);
   const imgNum = parts[0];
