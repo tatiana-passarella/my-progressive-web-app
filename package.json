@@ -26,8 +26,7 @@
     "gulp-uglify-es": "^1.0.1",
     "imagemin": "^5.3.1",
     "jsmin": "^1.0.1",
-    "rename": "^1.0.4",
-    "vanilla-lazyload": "^10.5.2"
+    "rename": "^1.0.4"
   },
   "dependencies": {
     "gulp-eslint": "^4.0.2"
