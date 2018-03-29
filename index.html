@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+ 	<title>Eat | Restaurant Reviews</title>
+ 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<link rel="manifest" href="manifest.json">
+ 	<meta name="theme-color" content="#c3c3c3">
+ 	<meta name="application-name" content="Eat">
+	<link rel="icon" sizes="256x256" href="img/app-icon-256.png">
+	<link rel="icon" sizes="512x512" href="img/app-icon-512.png">
+	<meta name="description" content="Eat to choose what you want, wherever you are">
+	<meta name="keywords" content="Eat restaurant reviews info">
+	<meta name="author" content="Tatiana Passarella">
+	<meta name="robots" content="index,follow">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+ 	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<style>
+	body {
+		font-size: 1.2em;
+		font-family: Arial, sans-serif;
+		background-color: #c3c3c3;
+		margin: 0;
+	}
+	ul, li {
+	  margin: 0;
+	  padding: 0;
+	  color: white;
+	}
+	a {
+		color: #CC0000;
+		text-decoration: none;
+	}
+	a:hover, a:focus {
+		color: #ff2424;
+	}
+	a img{
+		border: none 0px #fff;
+	}
+	select, p, h2, h3, h4 {
+	 	letter-spacing: 0.5px;
+	}
+	h2, h3, h4 {
+	  margin: 0 0 20px;
+	}
+	header, menu, nav, footer, section {
+		display: block;
+	}
+	header {
+	  width: 100%;
+	  height: 80px;
+	  background-color: #333;
+	  text-align:center;
+	}
+	#logo {
+	  height: 45px;
+	  vertical-align: -15px;
+	}
+	header h1 {
+	  margin: auto;
+	  padding-top: 15px;
+	  color: #FF0000;
+	  font-size: 0.8em;
+	  font-weight: 400;
+	  letter-spacing: 10px;
+	  text-transform: uppercase;
+	}
+	#footer {
+	  background-color: #333;
+	  color: #aaa;
+	  font-size: 8pt;
+	  letter-spacing: 1px;
+	  padding: 25px;
+	  text-align: center;
+	  text-transform: uppercase;
+	}
+	#container {
+	  overflow:hidden;
+	}
+	#maincontent {
+	  width: inherit;
+	}
+	#my-results {
+		text-align: center;
+		color: #333;
+		font-size: 16px;
+	}
+	#results {
+		font-weight: bold;
+	}
+	#map {
+	  height: 400px;
+	  width: 100%;
+	  background-color: #ccc;
+	}
+	#map-container {
+	  width: inherit;
+	}
+	#result-container {
+	  width: inherit;
+	}
+	.filter-options {
+	  width: inherit;
+	  height: 50px;
+	  text-align: center;
+	  background-color: #333;
+	  align-items: center;
+	}
+	.filter-options h2 {
+	  color: #CC0000;
+	  font-size: 1rem;
+	  font-weight: normal;
+	  line-height: 1;
+	  margin: 0 20px;
+	  padding-top: 10px;
+	}
+	.filter-options select {
+	  background-color: white;
+	  border: 1px solid #fff;
+	  font-family: Arial, sans-serif;
+	  font-size: 1rem;
+	  height: 48px;
+	  margin: 10px;
+	  padding: 0 10px;
+	  width: 200px;
+	}
+	#restaurants-list {
+	  display: flex;
+	  flex-wrap: wrap;
+	  width: inherit;
+	  list-style: outside none none;
+	  margin-top: 100px;
+	  text-align: center;
+	}
+	#restaurants-list li {
+	  background-color: #fff;
+	  border-radius: 15px;
+	  border: 2px solid #ccc;
+	  font-family: Arial, sans-serif;
+	  min-height: 300px;
+	  width: 230px;
+	  padding: 15px;
+	  margin: auto;
+	  margin-top: 20px;
+	  margin-bottom: 20px;
+	  text-align: left;
+	}
+	#restaurants-list .restaurant-img {
+	  background-color: #ccc;
+	  display: block;
+	  margin: 0;
+	  max-width: 100%;
+	  min-width: 100%;
+	}
+	#restaurants-list li h2 {
+	  color: #cc0000;
+	  font-family: Arial, sans-serif;
+	  font-size: 14pt;
+	  font-weight: 400;
+	  line-height: 1.3;
+	  margin: 20px 0 10px;
+	  text-transform: uppercase;
+	}
+	#restaurants-list p {
+		color: #333;
+	  margin: 0;
+	  font-size: 16px;
+	}
+	#restaurants-list li a, #my-results a {
+	  background-color: #cc0000;
+	  color: #fff;
+	  display: inline-block;
+	  font-size: 10pt;
+	  margin: 15px 0 15px;
+	  padding: 13px 30px 13px;
+	  text-align: center;
+	  text-decoration: none;
+	  text-transform: uppercase;
+	  cursor: pointer;
+	}
+	@media screen and (max-width: 480px) {
+	  #logo {
+	    height: 45px;
+	  }
+	  header h1 {
+	    
+	  }
+	}
+	@media screen and (min-width: 481px) {
+	  #logo {
+	    height: 50px;
+	  }
+	  header h1 {
+	    font-size: 1.2em;
+	  }
+	  #restaurants-list {
+	    margin-top: 50px;
+	  }
+	}
+	@media screen and (min-width: 1201px) {
+	  #container {
+	    width: 1200px;
+	    margin-left: auto;
+	    margin-right: auto;
+	  }
+	  #restaurant-container, #reviews-container {
+	    text-align: left;
+	    width: 598px;
+	  }
+	  #restaurant-cuisine {
+	    margin: 0 0 20px; 
+	  }
+	  #reviews-list li {
+	    margin: 0 20px 10px 22px;
+	  }
+	  #restaurant-hours {
+	    text-align: left;
+	    margin-left: 0;
+	  }
+	}
+	</style>
+</head>
+
+<body>
+	<div id="container">
+	 	<header>
+			<h1><img id="logo" src="/img/logo.svg" alt=""> EAT &#12307;REVIEWS&#12307;</h1>
+	 	</header>
+
+	 	<main id="maincontent">
+			<section id="map-container" role="application">
+				<div id="map" tabindex="0"></div>
+			</section>
+			<section id="result-container">
+				<div class="filter-options">
+					<h2><b>&mdash; FILTERS &mdash;</b></h2>
+					<select id="neighborhoods-select" tabindex="0" name="neighborhoods" aria-label="Select neighborhood" onchange="updateRestaurants()">
+						<option value="all">All Neighborhoods</option>
+					</select>
+					<select id="cuisines-select" tabindex="0" name="cuisines" aria-label="Select cuisine type" onchange="updateRestaurants()">
+					<option value="all">All Cuisines</option>
+					</select>
+				</div>
+				<ul id="restaurants-list"></ul>
+			</section>
+		</main>
+
+
+
+		<footer id="footer">
+			Copyright (c) 2018 <a href="/"><strong>EAT Restaurant Reviews</strong></a> All Rights Reserved.
+		</footer>
+	</div><!-- end container -->
+
+<script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+<script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+<!-- <script type="application/javascript" charset="utf-8" src="js/passive_events.min.js"></script> -->
+<script>
+window.onload = function() {
+	const myIframe = document.getElementsByTagName('iframe')[0];
+	myIframe.setAttribute("title", "Google Map");
+
+	// const myMap = document.getElementById('map');
+	// myMap.setAttribute("rel", "noopener");
+
+	// myMap.addEventListener('wheel', 'load', {passive: true});
+	// myMap.addEventListener('touchstart', 'load', {passive: true});
+	// myMap.addEventListener('touchmove', 'load', {passive: true});
+	// myMap.addEventListener('touchenter', 'load', {passive: true});
+	// myMap.addEventListener('touchend', 'load', {passive: true});
+	// myMap.addEventListener('touchleave', 'load', {passive: true});
+};
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHdZ_s6Gnq8k1okOEEBrRvvmG9W2DlZXg&libraries=places&callback=initMap"></script>
+</body>
+</html>
