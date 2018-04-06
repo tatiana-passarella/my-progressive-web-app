@@ -56,7 +56,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = `<b>${restaurant.address}</b>`;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img lozad'
+  image.className = 'restaurant-img'
 
   const imgSrc = DBHelper.imageUrlForRestaurant(restaurant);
   const parts = imgSrc.match(/[^\.]+/);
@@ -155,6 +155,7 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
+  li.setAttribute('aria-current', 'page');
   breadcrumb.appendChild(li);
 }
 

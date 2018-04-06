@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   fetchCuisines();
   registerServiceWorker();
 });
+  
 /**
  * Register service worker
  */
@@ -72,6 +73,7 @@ fetchCuisines = () => {
     }
   });
 }
+
 
 /**
  * Set cuisines HTML.
@@ -149,6 +151,9 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
+
+  new LazyLoad();
+
   addMarkersToMap();
 }
 
@@ -164,8 +169,8 @@ createRestaurantHTML = (restaurant) => {
   const parts = theImg.match(/[^\.]+/);
   const imgNum = parts[0];
   const imgSmall = `${imgNum}_s.jpg`;
-  image.src = imgSmall;
   image.dataset.src = imgSmall;
+  image.src = imgSmall;
   image.alt = `${restaurant.name} restaurant image`;
   li.append(image);
 
@@ -184,7 +189,8 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.tabIndex = 0;
-  more.setAttribute('aria-label', 'View restaurant info');
+  more.setAttribute('aria-label', `View more about ${restaurant.name}`); 
+  more.setAttribute('role', 'button');
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
 
