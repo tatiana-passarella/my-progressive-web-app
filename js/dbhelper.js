@@ -124,7 +124,7 @@ class DBHelper {
 
   /**
    * Fetch all restaurants.
-   */
+  
   static fetchRestaurants(callback) {
     if (navigator.onLine) {
       fetch(`${DBHelper.DATABASE_URL}/restaurants`)
@@ -145,6 +145,24 @@ class DBHelper {
         }
       });
     }
+  }
+   */
+    static fetchRestaurants(callback) {
+    const restaurantsURL = `${DBHelper.DATABASE_URL}/restaurants`;
+    fetch(restaurantsURL)
+      .then(response => {
+        if (response.status === 200) {
+          response.json()
+            .then(json => {
+              callback(null, json);
+            }).catch(error => {
+              callback(error, null);
+            });
+        } else {
+          callback((`Request failed. ${response.status}`), null);
+        }
+      }
+      ).catch(error => callback(error, null));
   }
 
     /**

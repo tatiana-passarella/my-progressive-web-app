@@ -2,6 +2,7 @@ let restaurants,
   neighborhoods,
   cuisines
 var map
+var observer
 var markers = []
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -33,6 +34,17 @@ registerServiceWorker = () => {
         });
     }
 }
+/**
+ * Create Intersection Observer
+ */
+observer = new IntersectionObserver(changes => {
+  for (const change of changes) {
+    if (!change.isIntersecting) return;
+      let target = change.target;
+      target.setAttribute('src',target.getAttribute('data-src'));
+      observer.unobserve(target);
+    }
+});
 /**
  * Fetch all neighborhoods and set their HTML.
  */
@@ -151,9 +163,6 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
-
-  new LazyLoad();
-
   addMarkersToMap();
 }
 
@@ -164,15 +173,15 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.className = 'restaurant-img js-lazy-image';
   const theImg = DBHelper.imageUrlForRestaurant(restaurant);
   const parts = theImg.match(/[^\.]+/);
   const imgNum = parts[0];
   const imgSmall = `${imgNum}_s.jpg`;
   image.dataset.src = imgSmall;
-  image.src = imgSmall;
   image.alt = `${restaurant.name} restaurant image`;
   li.append(image);
+  observer.observe(image);
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
