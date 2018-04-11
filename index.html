@@ -81,17 +81,6 @@
 	#container {
 	  overflow:hidden;
 	}
-	#maincontent {
-	  width: inherit;
-	}
-	#my-results {
-		text-align: center;
-		color: #333;
-		font-size: 16px;
-	}
-	#results {
-		font-weight: bold;
-	}
 	#map {
 	  height: 400px;
 	  width: 100%;
@@ -170,7 +159,7 @@
 	  margin: 0;
 	  font-size: 16px;
 	}
-	#restaurants-list li a, #my-results a {
+	#restaurants-list li a {
 	  background-color: #cc0000;
 	  color: #fff;
 	  display: inline-block;
@@ -182,10 +171,18 @@
 	  text-transform: uppercase;
 	  cursor: pointer;
 	}
-	@media screen and (max-width: 480px) {
-	  #logo {
-	    height: 45px;
-	  }
+	#skip {
+		position:absolute;
+		top:0;
+		left:-1000px;
+		font-size: 12px;
+		background: #cc0000;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		color: #ffffff;
+		padding: 10px 20px 10px 20px;
+		text-decoration: none;
 	}
 	@media screen and (min-width: 481px) {
 	  #logo {
@@ -204,22 +201,9 @@
 	    margin-left: auto;
 	    margin-right: auto;
 	  }
-	  #restaurant-container, #reviews-container {
-	    text-align: left;
-	    width: 598px;
-	  }
-	  #restaurant-cuisine {
-	    margin: 0 0 20px; 
-	  }
-	  #reviews-list li {
-	    margin: 0 20px 10px 22px;
-	  }
-	  #restaurant-hours {
-	    text-align: left;
-	    margin-left: 0;
-	  }
 	}
 	</style>
+
 </head>
 
 <body>
@@ -228,9 +212,11 @@
 			<h1><img id="logo" src="/img/logo.svg" alt=""> EAT &#12307;REVIEWS&#12307;</h1>
 	 	</header>
 
+	 	<a id="skip" href="#neighborhoods-select" aria-label="Skip tabbing on the map elements">Skip to filters</a>
+	 	
 	 	<main id="maincontent">
-			<section id="map-container" role="application">
-				<div id="map" tabindex="0"></div>
+			<section id="map-container">
+				<div id="map" tabindex="0" role="application" aria-label="Map with restaurants"></div>
 			</section>
 			<section id="result-container">
 				<div class="filter-options">
@@ -259,9 +245,25 @@
 <!-- <script type="application/javascript" charset="utf-8" src="js/passive_events.min.js"></script> -->
 <script>
 window.onload = function() {
-	// const myIframe = document.getElementsByTagName('iframe')[0];
-	// myIframe.setAttribute("title", "Google Map");
+	const myIframe = document.getElementsByTagName('iframe')[0];
+	myIframe.setAttribute("title", "Google Map");
 
+	const map = document.getElementById("map");
+	const skip = document.getElementById("skip");
+	let visible = 0;
+	map.addEventListener('focus',function(){
+		skip.style.setProperty("left", "0px");
+		skip.focus();
+		visible = 1;
+	});
+
+	skip.addEventListener("keydown", function(e) {
+	  if( (e.which == 9) && (visible == 1) ){
+	  	//skip.blur();
+	  	skip.style.display = 'none';
+	  	visible = 0;
+	  }
+	});
 	// const myAnchors = document.querySelectorAll('[target="_blank"]');
 	// var len = myAnchors.length;
 	// for (var i=0; i<len; i++) {
