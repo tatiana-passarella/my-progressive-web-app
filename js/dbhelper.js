@@ -124,7 +124,7 @@ class DBHelper {
 
   /**
    * Fetch all restaurants.
-  
+  */
   static fetchRestaurants(callback) {
     if (navigator.onLine) {
       fetch(`${DBHelper.DATABASE_URL}/restaurants`)
@@ -138,31 +138,13 @@ class DBHelper {
           callback(error, null);
         })
     } else {
-      console.log('Browser Offline - Using cached data!');
+      console.log('Offline state, using cache');
       DBHelper.getCachedData((error, restaurants) => {
         if (restaurants.length > 0) {
           callback(null, restaurants);
         }
       });
     }
-  }
-   */
-    static fetchRestaurants(callback) {
-    const restaurantsURL = `${DBHelper.DATABASE_URL}/restaurants`;
-    fetch(restaurantsURL)
-      .then(response => {
-        if (response.status === 200) {
-          response.json()
-            .then(json => {
-              callback(null, json);
-            }).catch(error => {
-              callback(error, null);
-            });
-        } else {
-          callback((`Request failed. ${response.status}`), null);
-        }
-      }
-      ).catch(error => callback(error, null));
   }
 
     /**
@@ -192,7 +174,7 @@ class DBHelper {
         reviews = reviews.sort(function(a, b) {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        DBHelper.createReviewsStore(id, reviews);
+        DBHelper.createIDBreviews(id, reviews);
         callback(null, reviews);
       })
       .catch(err => {
@@ -200,6 +182,7 @@ class DBHelper {
         callback(error, null);
       })
   }
+  
 
   static addRestaurantToFavorites(restaurantId, isFav, callback) {
     const url = DBHelper.DATABASE_URL + '/restaurants/' + restaurantId + '/?is_favorite=' + isFav;
