@@ -139,7 +139,7 @@ class DBHelper {
         })
     } else {
       console.log('Offline state, using cache');
-      DBHelper.getCachedData((error, restaurants) => {
+      DBHelper.getData((error, restaurants) => {
         if (restaurants.length > 0) {
           callback(null, restaurants);
         }
