@@ -49,6 +49,21 @@
 						<table id="restaurant-hours"></table>
 					</div>
 				</section>
+				<section id="restaurant-review-form">
+					<form onsubmit="reviewRestaurant();" id="review-form">
+						<input tabindex="0" type="text" id="review-name" placeholder="Enter your name">
+						<select tabindex="0" id="review-rating">
+							<option disabled selected>Select Rating</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+						<textarea tabindex="0" id="review-comment" rows="5" placeholder="Give your feedback"></textarea>
+						<input tabindex="0" type="submit">
+					</form>
+				</section>
 				<section id="reviews-container">
 						<ul id="reviews-list"></ul>
 				</section>

@@ -1,7 +1,31 @@
 
 let restaurant;
 var map;
+document.addEventListener('DOMContentLoaded', (event) => {
+  registerServiceWorker();
+});
+  
+/**
+ * Register service worker
+ */
+registerServiceWorker = () => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then((reg) => {
+                console.log('Service worker registration successful with scope: ', reg.scope);
+                if (reg.installing) {
+                    console.log('Service worker installing');
+                } else if (reg.waiting) {
+                    console.log('Service worker installed');
+                } else if (reg.active) {
+                    console.log('Service worker active');
+                }
 
+            }).catch((error) => {
+            // registration failed
+            console.log('Registration failed with ' + error);
+        });
+    }
+}
 /**
  * Initialize Google map, called from HTML.
  */
@@ -75,11 +99,40 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
+  const favoriteIcon = document.createElement('span');
+  favoriteIcon.className = 'restaurant-fav';
+
+  const favoriteIconImg = document.createElement('img');
+  if (restaurant.is_favorite === "true") {
+    favoriteIconImg.alt = 'Favorited ' + restaurant.name;
+    favoriteIconImg.setAttribute("data-src", './img/ico-fav.png');
+    favoriteIconImg.className = 'restaurant-fav-icon fav';
+  } else {
+    favoriteIconImg.setAttribute("data-src", './img/ico-fav-o.png');
+    favoriteIconImg.className = 'restaurant-fav-icon fav-not';
+  }
+
+  favoriteIconImg.addEventListener('click', () => {
+    const src = favoriteIconImg.src;
+    if (src.includes('img/ico-fav-o.png')) {
+      DBHelper.addRestaurantToFavorites(restaurant.id, true, (err, res) => {
+        favoriteIconImg.src = './img/ico-fav.png';
+      });
+    } else {
+      DBHelper.addRestaurantToFavorites(restaurant.id, false, (err, res) => {
+        favoriteIconImg.src = './img/ico-fav-o.png';
+      });
+    }
+  })
+
+  favoriteIcon.append(favoriteIconImg);
+  name.prepend(favoriteIcon);
+
   const address = document.getElementById('restaurant-address');
   address.innerHTML = `<b>${restaurant.address}</b>`;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img';
 
   const imgSrc = DBHelper.imageUrlForRestaurant(restaurant);
   const parts = imgSrc.match(/[^\.]+/);
@@ -91,7 +144,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.src = `${imgNum}_s.jpg`;
   image.setAttribute('srcset', imgSrcset);
 
-  image.alt = restaurant.name + ' restaurant image';
+  image.alt = `${restaurant.name} restaurant image`;
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -168,6 +221,38 @@ createReviewHTML = (review) => {
   li.appendChild(comments);
 
   return li;
+}
+/**
+ * Add restaurant review
+ */
+const reviewRestaurant = (restaurant = self.restaurant) => {
+  const id = restaurant.id;
+  const name = document.getElementById("review-name").value;
+  const rating = document.getElementById("review-rating").value;
+  const message = document.getElementById("review-comment").value;
+
+  if (name != "" && message != "") {
+    const review = {
+      restaurant_id: id,
+      name: name,
+      rating: rating,
+      comments: message,
+    }
+
+    fetch(`${DBHelper.DATABASE_URL}/reviews`, {
+      method: 'post',
+      body: JSON.stringify(review)
+    })
+    .then(res => res.json())
+    .catch(error => {
+      const error = `Error during send review because on ${err.status}`;
+      console.log(error);
+    });
+
+    window.location.reload();
+  }
+
+  return false;
 }
 
 /**

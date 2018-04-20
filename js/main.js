@@ -1,9 +1,9 @@
 let restaurants,
   neighborhoods,
-  cuisines
-var map
-var observer
-var markers = []
+  cuisines,
+  observer;
+var map;
+var markers = [];
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -133,6 +133,10 @@ updateRestaurants = () => {
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
     if (error) { // Got an error!
       console.error(error);
+      const ul = document.getElementById('restaurants-list');
+      const li = document.createElement('li');
+      li.innerHTML = '<p role="alert">You are offline, go online to see restaurants</p>'
+      ul.append(li);
     } else {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
