@@ -209,7 +209,7 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = new Date(review.updatedAt).toLocaleDateString();
   li.appendChild(date);
 
   const rating = document.createElement('p');
@@ -244,7 +244,7 @@ const reviewRestaurant = (restaurant = self.restaurant) => {
       body: JSON.stringify(review)
     })
     .then(res => res.json())
-    .catch(error => {
+    .catch(err => {
       const error = `Error during send review because on ${err.status}`;
       console.log(error);
     });
@@ -281,3 +281,4 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
