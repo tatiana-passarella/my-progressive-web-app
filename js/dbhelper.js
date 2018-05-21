@@ -55,12 +55,16 @@ class DBHelper {
     }
   }
 
-  static createIDBreviews(restaurantId, reviews) {
+  static createIDBreviews(restaurantId, reviews, status) {
     // Get the compatible IndexedDB version
     var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
 
     // Open (or create) the database
-    var open = indexedDB.open("EAT_restaurant-review", 1);
+    if (status == "offline") {
+      var open = indexedDB.open("EAT_outbox", 1);
+    }else{
+      var open = indexedDB.open("EAT_restaurant-review", 1);
+    }
 
     // Create the schema
     open.onupgradeneeded = function() {

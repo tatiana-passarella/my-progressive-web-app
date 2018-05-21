@@ -284,8 +284,12 @@ header h1 {
 #restaurant-hours td {
   color: #666;
 }
-
-
+#your-review{
+  text-align: center;
+}
+#review-form > form, #review-form > input, #review-form > textarea, #review-form > select {
+  margin-bottom: 10px;
+}
 /* ====================== Madia queries ====================== */
 
 @media screen and (max-width: 480px) {

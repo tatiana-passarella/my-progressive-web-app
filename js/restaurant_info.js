@@ -230,18 +230,25 @@ const reviewRestaurant = (restaurant = self.restaurant) => {
   const name = document.getElementById("review-name").value;
   const rating = document.getElementById("review-rating").value;
   const message = document.getElementById("review-comment").value;
+  let review = true;
+  let offline_review = false;
 
   if (name != "" && message != "") {
-    const review = {
+    review = {
       restaurant_id: id,
       name: name,
       rating: rating,
       comments: message,
     }
 
+  const submitReview = () =>
     fetch(`${DBHelper.DATABASE_URL}/reviews`, {
-      method: 'post',
-      body: JSON.stringify(review)
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(review),
     })
     .then(res => res.json())
     .catch(err => {
@@ -249,7 +256,16 @@ const reviewRestaurant = (restaurant = self.restaurant) => {
       console.log(error);
     });
 
-    window.location.reload();
+
+    if (navigator.onLine) {
+      submitReview();
+      console.log(window.location);
+      window.location.reload();
+    }else{
+      offline_review = JSON.stringify(review);
+      DBHelper.createIDBoutbox(id, offline_review);
+      console.log("Offline status - Review went in outbox waiting for sync")
+    }
   }
 
   return false;
