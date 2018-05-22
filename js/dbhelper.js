@@ -13,9 +13,9 @@ class DBHelper {
   }
 
   static myDB(restaurants) {
-    // This works on all devices/browsers, and uses IndexedDBShim as a final fallback 
-    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-    
+    // Look for the compatible IndexedDB version
+    var indexedDB = window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+
     if (!window.indexedDB) {
         window.alert("Your browser doesn't support IndexedDB.");
     }
@@ -55,16 +55,13 @@ class DBHelper {
     }
   }
 
-  static createIDBreviews(restaurantId, reviews, status) {
-    // Get the compatible IndexedDB version
-    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+  static createIDBreviews(restaurantId, reviews) {
+    // Look for the compatible IndexedDB version
+    var indexedDB = window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
     // Open (or create) the database
-    if (status == "offline") {
-      var open = indexedDB.open("EAT_outbox", 1);
-    }else{
-      var open = indexedDB.open("EAT_restaurant-review", 1);
-    }
+    var open = indexedDB.open("EAT_restaurant-review", 1);
+
 
     // Create the schema
     open.onupgradeneeded = function() {
@@ -75,7 +72,7 @@ class DBHelper {
 
     open.onerror = function(err) {
       console.error("IndexedDB error: " + err.target.errorCode);
-    }
+    };
 
     open.onsuccess = function() {
       // Start a new transaction
@@ -87,6 +84,42 @@ class DBHelper {
       reviews.forEach(function(review) {
         store.put(review);
       });
+
+      // Close the db when the transaction is done
+      tx.oncomplete = function() {
+        db.close();
+      };
+    }
+  }
+
+  static createIDBoutbox(restaurantId, review) {
+    // Look for the compatible IndexedDB version
+    var indexedDB = window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+
+    // Open (or create) the database
+    var open = indexedDB.open("EAT_outbox", 1);
+
+    // Create the schema
+    open.onupgradeneeded = function() {
+      var db = open.result;
+      db.createObjectStore("Reviews-" + restaurantId, { keyPath: "id" });
+    };
+
+
+    open.onerror = function(err) {
+      console.error("IndexedDB error: " + err.target.errorCode);
+    };
+
+    open.onsuccess = function() {
+      // Start a new transaction
+      var db = open.result;
+      var tx = db.transaction("Reviews-" + restaurantId, "readwrite");
+      var store = tx.objectStore("Reviews-" + restaurantId);
+
+      // Add the restaurant data
+      //store.put(review);
+      store.put({id: restaurantId, value: review});
+
 
       // Close the db when the transaction is done
       tx.oncomplete = function() {

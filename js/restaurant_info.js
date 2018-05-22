@@ -230,11 +230,9 @@ const reviewRestaurant = (restaurant = self.restaurant) => {
   const name = document.getElementById("review-name").value;
   const rating = document.getElementById("review-rating").value;
   const message = document.getElementById("review-comment").value;
-  let review = true;
-  let offline_review = false;
 
   if (name != "" && message != "") {
-    review = {
+    const review = {
       restaurant_id: id,
       name: name,
       rating: rating,
@@ -262,8 +260,9 @@ const reviewRestaurant = (restaurant = self.restaurant) => {
       console.log(window.location);
       window.location.reload();
     }else{
-      offline_review = JSON.stringify(review);
-      DBHelper.createIDBoutbox(id, offline_review);
+      const offline_review = JSON.stringify(review);
+      console.log(offline_review);
+      DBHelper.createIDBoutbox(id, review);
       console.log("Offline status - Review went in outbox waiting for sync")
     }
   }
