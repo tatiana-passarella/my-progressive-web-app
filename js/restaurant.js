@@ -3,6 +3,22 @@ let restaurant;
 var map;
 document.addEventListener('DOMContentLoaded', (event) => {
   registerServiceWorker();
+
+    const map = document.getElementById("map");
+    const skip = document.getElementById("skip");
+    let visible = 0;
+    map.addEventListener('focus',function(){
+      skip.style.setProperty("left", "0px");
+      skip.focus();
+      visible = 1;
+    });
+
+    skip.addEventListener("keydown", function(e) {
+      if( (e.which == 9) && (visible == 1) ){
+        skip.style.display = 'none';
+        visible = 0;
+      }
+    });
 });
   
 /**
@@ -105,11 +121,12 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const favoriteIconImg = document.createElement('img');
   if (restaurant.is_favorite === "true") {
     favoriteIconImg.alt = 'Favorited ' + restaurant.name;
-    favoriteIconImg.setAttribute("data-src", './img/ico-fav.png');
-    favoriteIconImg.className = 'restaurant-fav-icon fav';
+    favoriteIconImg.setAttribute("src", './img/ico-fav.png');
+    favoriteIconImg.className = 'fav-restaurant';
   } else {
-    favoriteIconImg.setAttribute("data-src", './img/ico-fav-o.png');
-    favoriteIconImg.className = 'restaurant-fav-icon fav-not';
+    favoriteIconImg.alt = 'Not favorited ' + restaurant.name;
+    favoriteIconImg.setAttribute("src", './img/ico-fav-o.png');
+    favoriteIconImg.className = 'fav-restaurant';
   }
 
   favoriteIconImg.addEventListener('click', () => {
@@ -241,7 +258,7 @@ const submitReview = (review) => {
   });
 }
 /**
- * Prepend review when offline while waiting for background sync to send it
+ * Prepend user review
  */
 const prependReview = (review) => {
   const ul = document.getElementById('reviews-list');

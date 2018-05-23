@@ -8,9 +8,27 @@ var markers = [];
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  registerServiceWorker();
   fetchNeighborhoods();
   fetchCuisines();
-  registerServiceWorker();
+
+  const map = document.getElementById("map");
+  const skip = document.getElementById("skip");
+  let visible = 0;
+  map.addEventListener('focus',function(){
+    skip.style.setProperty("left", "0px");
+    skip.focus();
+    visible = 1;
+  });
+
+  skip.addEventListener("keydown", function(e) {
+    if( (e.which == 9) && (visible == 1) ){
+      //skip.blur();
+      skip.style.display = 'none';
+      visible = 0;
+    }
+  });
+
 });
   
 /**
