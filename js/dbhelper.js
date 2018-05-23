@@ -97,7 +97,7 @@ class DBHelper {
     var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
     // Open (or create) the database
-    var open = indexedDB.open("EAT_outbox", 2);
+    var open = indexedDB.open("EAT_outbox", 1);
 
     // Create the schema
     open.onupgradeneeded = function() {

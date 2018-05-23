@@ -223,6 +223,31 @@ createReviewHTML = (review) => {
   return li;
 }
 /**
+ * Send review to server
+ */
+const submitReview = (review) => {
+  fetch(`${DBHelper.DATABASE_URL}/reviews`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(review),
+  })
+  .then(res => res.json())
+  .catch(err => {
+    const error = `Error during send review because on ${err.status}`;
+    console.log(error);
+  });
+}
+/**
+ * Prepend review when offline while waiting for background sync to send it
+ */
+const prependReview = (review) => {
+  const ul = document.getElementById('reviews-list');
+  ul.prepend(createReviewHTML(review));
+}
+/**
  * Add restaurant review
  */
 const reviewRestaurant = (restaurant = self.restaurant) => {
@@ -235,35 +260,20 @@ const reviewRestaurant = (restaurant = self.restaurant) => {
     const review = {
       restaurant_id: id,
       name: name,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       rating: rating,
       comments: message,
     }
 
-  const submitReview = () =>
-    fetch(`${DBHelper.DATABASE_URL}/reviews`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(review),
-    })
-    .then(res => res.json())
-    .catch(err => {
-      const error = `Error during send review because on ${err.status}`;
-      console.log(error);
-    });
-
-
     if (navigator.onLine) {
-      submitReview();
-      window.location.reload();
+      submitReview(review);
+      prependReview(review);
     }else{
       const offline_review = JSON.stringify(review);
       console.log(offline_review);
       DBHelper.createIDBoutbox(id, review);
+      prependReview(review);
       console.log("Offline status - Review went in outbox waiting for sync")
     }
   }
