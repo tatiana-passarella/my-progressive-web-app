@@ -235,6 +235,8 @@ const reviewRestaurant = (restaurant = self.restaurant) => {
     const review = {
       restaurant_id: id,
       name: name,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       rating: rating,
       comments: message,
     }
@@ -257,7 +259,6 @@ const reviewRestaurant = (restaurant = self.restaurant) => {
 
     if (navigator.onLine) {
       submitReview();
-      console.log(window.location);
       window.location.reload();
     }else{
       const offline_review = JSON.stringify(review);

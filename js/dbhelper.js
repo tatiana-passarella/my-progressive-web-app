@@ -14,7 +14,7 @@ class DBHelper {
 
   static myDB(restaurants) {
     // Look for the compatible IndexedDB version
-    var indexedDB = window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
     if (!window.indexedDB) {
         window.alert("Your browser doesn't support IndexedDB.");
@@ -57,7 +57,7 @@ class DBHelper {
 
   static createIDBreviews(restaurantId, reviews) {
     // Look for the compatible IndexedDB version
-    var indexedDB = window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
     // Open (or create) the database
     var open = indexedDB.open("EAT_restaurant-review", 1);
@@ -94,15 +94,15 @@ class DBHelper {
 
   static createIDBoutbox(restaurantId, review) {
     // Look for the compatible IndexedDB version
-    var indexedDB = window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
     // Open (or create) the database
-    var open = indexedDB.open("EAT_outbox", 1);
+    var open = indexedDB.open("EAT_outbox", 2);
 
     // Create the schema
     open.onupgradeneeded = function() {
       var db = open.result;
-      db.createObjectStore("Reviews-" + restaurantId, { keyPath: "id" });
+      db.createObjectStore("Reviews-" + restaurantId, { keyPath: "id", autoIncrement: true});
     };
 
 
@@ -117,8 +117,8 @@ class DBHelper {
       var store = tx.objectStore("Reviews-" + restaurantId);
 
       // Add the restaurant data
-      //store.put(review);
-      store.put({id: restaurantId, value: review});
+      store.put(review);
+      //store.put({id: restaurantId, value: review});
 
 
       // Close the db when the transaction is done
@@ -131,8 +131,8 @@ class DBHelper {
   static getData(callback) {
     var restaurants = [];
 
-    // This works on all devices/browsers, and uses IndexedDBShim as a final fallback 
-    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+    // Look for the compatible IndexedDB version
+    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     
     if (!window.indexedDB) {
         window.alert("Your browser doesn't support IndexedDB.");
