@@ -132,6 +132,11 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     center: loc,
     scrollwheel: false
   });
+  let setTitle = () => {
+    const iFrameGoogleMaps = document.querySelector('#map iframe');
+    iFrameGoogleMaps.setAttribute('title', 'Google Maps with restaurants markers');
+  }
+  map.addListener('tilesloaded', setTitle);
   updateRestaurants();
 }
 

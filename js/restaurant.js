@@ -55,6 +55,11 @@ window.initMap = () => {
         center: restaurant.latlng,
         scrollwheel: false
       });
+      let setTitle = () => {
+        const iFrameGoogleMaps = document.querySelector('#map iframe');
+        iFrameGoogleMaps.setAttribute('title', 'Google Maps with restaurants markers');
+      }
+      map.addListener('tilesloaded', setTitle);
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
