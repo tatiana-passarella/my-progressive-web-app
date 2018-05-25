@@ -121,15 +121,15 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   name.innerHTML = restaurant.name;
 
   const favoriteIcon = document.createElement('span');
-  favoriteIcon.className = 'restaurant-fav';
+  favoriteIcon.className = 'fav-wrap';
 
   const favoriteIconImg = document.createElement('img');
   if (restaurant.is_favorite === "true") {
-    favoriteIconImg.alt = 'Favorited ' + restaurant.name;
+    favoriteIconImg.alt = `${restaurant.name} is favorite`;
     favoriteIconImg.setAttribute("src", './img/ico-fav.png');
     favoriteIconImg.className = 'fav-restaurant';
   } else {
-    favoriteIconImg.alt = 'Not favorited ' + restaurant.name;
+    favoriteIconImg.alt = `${restaurant.name} is not favorite`;
     favoriteIconImg.setAttribute("src", './img/ico-fav-o.png');
     favoriteIconImg.className = 'fav-restaurant';
   }

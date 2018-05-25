@@ -51,6 +51,23 @@ header h1 {
 #container {
   overflow:hidden;
 }
+#my-results {
+  text-align: center;
+  color: #333;
+  font-size: 16px;
+}
+#my-results a {
+  background-color: #cc0000;
+  color: #fff;
+  display: inline-block;
+  font-size: 10pt;
+  margin: 15px 0 15px;
+  padding: 13px 30px 13px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
 #map {
   height: 400px;
   width: 100%;

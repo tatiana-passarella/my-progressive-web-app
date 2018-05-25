@@ -20,6 +20,12 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<link rel="stylesheet" href="css/restaurant.css" media="screen">
+	<script>
+	function showMap() {
+		document.getElementById("map-container").removeAttribute("style");
+		document.getElementById("my-results").remove();
+	}
+	</script>
 </head>
 
 <body class="inside">
@@ -31,7 +37,10 @@
 		<a id="skip" href="#link_home" aria-label="Skip tabbing on the map elements">Skip tabbing on map</a>
 
 		<main id="maincontent" role="main">
-			<section id="map-container">
+			 <section id="my-results">
+				<a tabindex="0" aria-label="Open the map to see restaurant location" onclick="showMap()">Open the map</a> 
+	 		</section>
+			<section id="map-container" style="display:none">
 				<div id="map" tabindex="0" role="application" aria-label="Map with restaurants"></div>
 			</section>
 			<nav>
@@ -80,5 +89,13 @@
 	<script type="application/javascript" charset="utf-8" src="js/restaurant.js"></script>
 	<script type="application/javascript" charset="utf-8" src="js/lazy-load.js"></script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHdZ_s6Gnq8k1okOEEBrRvvmG9W2DlZXg&libraries=places&callback=initMap"></script>
+	<script>
+	window.onload = function() {
+		var windwWidth = window.innerWidth;
+		if (windwWidth >= '750') {
+			showMap();
+		}
+	};
+	</script>
 </body>
 </html>

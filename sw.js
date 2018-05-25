@@ -27,11 +27,11 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(self.clients.claim())
-})
+  event.waitUntil(self.clients.claim());
+});
 
 self.addEventListener('fetch', event => {
-  const { request } = event
+  const { request } = event;
   if (!request.url.includes('restaurants')) {
     event.respondWith(
       caches
@@ -40,19 +40,4 @@ self.addEventListener('fetch', event => {
         .catch(err => console.log(err)),
     )
   }
-})
-
-
-
-// self.addEventListener('fetch', function (event) {
-//     event.respondWith(
-//         caches.open('EAT_restaurant-review').then(function (cache) {
-//             return cache.match(event.request).then(function (response) {
-//                 return response || fetch(event.request).then(function (response) {
-//                     cache.put(event.request, response.clone());
-//                     return response;
-//                 });
-//             });
-//         })
-//     );
-// });
+});

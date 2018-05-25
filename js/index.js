@@ -183,14 +183,25 @@ resetRestaurants = (restaurants) => {
 }
 
 /**
+ * Count the restaurant number and write
+ * it at the place of map in mobile device
+ */
+restaurantCounter = (resultCounter) => {
+  const mySpan = document.getElementById('results');
+  mySpan.innerHTML = resultCounter;
+}
+/**
  * Create all restaurants HTML and add them to the webpage.
  */
+let resultCounter = 0;
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
+    resultCounter++;
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
+  restaurantCounter(resultCounter);
 }
 
 /**

@@ -53,6 +53,14 @@ header h1 {
 #container {
   overflow:hidden;
 }
+#my-results {
+  text-align: center;
+  color: #333;
+  font-size: 16px;
+}
+#results {
+  font-weight: bold;
+}
 #map {
   height: 400px;
   width: 100%;
@@ -131,7 +139,7 @@ header h1 {
   margin: 0;
   font-size: 16px;
 }
-#restaurants-list li a {
+#restaurants-list li a, #my-results a {
   background-color: #cc0000;
   color: #fff;
   display: inline-block;
