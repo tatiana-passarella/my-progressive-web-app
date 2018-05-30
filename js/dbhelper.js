@@ -105,7 +105,6 @@ class DBHelper {
       db.createObjectStore("Reviews-" + restaurantId, { keyPath: "id", autoIncrement: true});
     };
 
-
     open.onerror = function(err) {
       console.error("IndexedDB error: " + err.target.errorCode);
     };
@@ -220,10 +219,12 @@ class DBHelper {
       })
   }
   
-
-  static addRestaurantToFavorites(restaurantId, isFav, callback) {
-    const url = DBHelper.DATABASE_URL + '/restaurants/' + restaurantId + '/?is_favorite=' + isFav;
-    fetch(url, { method: 'put' })
+  /**
+  * Toggle favorite restaurant
+  */
+  static toggleRestaurantFavorite(id, favorite, callback) {
+    return fetch(DBHelper.DATABASE_URL + `/restaurants/${id}/?is_favorite=${favorite}`,
+      { method: 'PUT' })
       .then(res => callback(null, 1))
       .catch(err => callback(err, null));
   }
