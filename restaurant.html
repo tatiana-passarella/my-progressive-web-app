@@ -20,13 +20,8 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<link rel="preload" as="style" href="css/restaurant.min.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="style" href="css/restaurant-media.min.css" onload="this.rel='stylesheet'">
 	<!-- <link rel="stylesheet" href="css/restaurant.css" media="screen">-->
-	<script>
-	function showMap() {
-		document.getElementById("map-container").removeAttribute("style");
-		document.getElementById("my-results").remove();
-	}
-	</script>
 </head>
 
 <body class="inside">
@@ -62,7 +57,7 @@
 
 				<section id="reviews-container">
 					<h2 id="your-review">Your review</h2>
-					<form onsubmit="return reviewRestaurant();" id="review-form">
+					<form onsubmit="return catchReview();" id="review-form">
 						<input tabindex="0" type="text" id="review-name" placeholder="Enter your name" role="textbox" aria-label="Your name" aria-required="true"><br />
 						<select tabindex="0" id="review-rating" role="listbox" aria-label="Your rating" aria-required="true">
 							<option disabled selected>Select Rating</option>
@@ -86,17 +81,21 @@
 		 Copyright (c) 2018 <a href="/"><strong>EAT Restaurant Reviews</strong></a> All Rights Reserved.
 	  </footer>
   	</div><!-- end container -->
-	<script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-	<script type="application/javascript" charset="utf-8" src="js/restaurant.js"></script>
-	<script type="application/javascript" charset="utf-8" src="js/lazy-load.js"></script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHdZ_s6Gnq8k1okOEEBrRvvmG9W2DlZXg&libraries=places&callback=initMap"></script>
-	<script>
-	window.onload = function() {
-		var windwWidth = window.innerWidth;
-		if (windwWidth >= '750') {
-			showMap();
-		}
-	};
-	</script>
+<script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+<script type="application/javascript" charset="utf-8" src="js/restaurant.js"></script>
+<script type="application/javascript" charset="utf-8" src="js/lazy-load.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHdZ_s6Gnq8k1okOEEBrRvvmG9W2DlZXg&libraries=places&callback=initMap"></script>
+<script>
+function showMap() {
+	document.getElementById("map-container").removeAttribute("style");
+	document.getElementById("my-results").remove();
+}
+window.onload = function() {
+	var windwWidth = window.innerWidth;
+	if (windwWidth >= '750') {
+		showMap();
+	}
+};
+</script>
 </body>
 </html>

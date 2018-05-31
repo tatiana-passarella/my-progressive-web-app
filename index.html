@@ -20,13 +20,8 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	<link rel="preload" as="style" href="css/index.min.css" onload="this.rel='stylesheet'">
+	<link rel="preload" as="style" href="css/index-media.min.css" onload="this.rel='stylesheet'">
 	<!-- <link rel="stylesheet" href="css/index.css" media="screen"> -->
-	<script>
-	function showMap() {
-		document.getElementById("map-container").removeAttribute("style");
-		document.getElementById("my-results").remove();
-	}
-	</script>
 </head>
 
 <body>
@@ -71,6 +66,10 @@
 <!-- <script type="application/javascript" charset="utf-8" src="js/passive_events.min.js"></script> -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHdZ_s6Gnq8k1okOEEBrRvvmG9W2DlZXg&libraries=places&callback=initMap"></script>
 <script>
+function showMap() {
+	document.getElementById("map-container").removeAttribute("style");
+	document.getElementById("my-results").remove();
+}
 window.onload = function() {
 	var windwWidth = window.innerWidth;
 	if (windwWidth >= '750') {

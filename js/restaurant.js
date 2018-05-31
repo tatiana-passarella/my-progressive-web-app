@@ -20,28 +20,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
     });
 });
-  
-/**
- * Register service worker
- */
-registerServiceWorker = () => {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then((reg) => {
-                console.log('Service worker registration successful with scope: ', reg.scope);
-                if (reg.installing) {
-                    console.log('Service worker installing');
-                } else if (reg.waiting) {
-                    console.log('Service worker installed');
-                } else if (reg.active) {
-                    console.log('Service worker active');
-                }
 
-            }).catch((error) => {
-            // registration failed
-            console.log('Registration failed with ' + error);
-        });
-    }
-}
 /**
  * Initialize Google map, called from HTML.
  */
@@ -244,6 +223,35 @@ createReviewHTML = (review) => {
 
   return li;
 }
+
+
+/**
+ * Add restaurant name to the breadcrumb navigation menu
+ */
+fillBreadcrumb = (restaurant=self.restaurant) => {
+  const breadcrumb = document.getElementById('breadcrumb');
+  const li = document.createElement('li');
+  li.innerHTML = restaurant.name;
+  li.setAttribute('aria-current', 'page');
+  breadcrumb.appendChild(li);
+}
+
+/**
+ * Get a parameter by name from page URL.
+ */
+getParameterByName = (name, url) => {
+  if (!url)
+    url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
+    results = regex.exec(url);
+  if (!results)
+    return null;
+  if (!results[2])
+    return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 /**
  * Send review to server
  */
@@ -272,7 +280,7 @@ const prependReview = (review) => {
 /**
  * Add restaurant review
  */
-const reviewRestaurant = (restaurant = self.restaurant) => {
+const catchReview = (restaurant = self.restaurant) => {
   const id = restaurant.id;
   const name = document.getElementById("review-name").value;
   const rating = document.getElementById("review-rating").value;
@@ -302,31 +310,24 @@ const reviewRestaurant = (restaurant = self.restaurant) => {
 
   return false;
 }
-
 /**
- * Add restaurant name to the breadcrumb navigation menu
+ * Register service worker
  */
-fillBreadcrumb = (restaurant=self.restaurant) => {
-  const breadcrumb = document.getElementById('breadcrumb');
-  const li = document.createElement('li');
-  li.innerHTML = restaurant.name;
-  li.setAttribute('aria-current', 'page');
-  breadcrumb.appendChild(li);
-}
+registerServiceWorker = () => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then((reg) => {
+                console.log('Service worker registration successful with scope: ', reg.scope);
+                if (reg.installing) {
+                    console.log('Service worker installing');
+                } else if (reg.waiting) {
+                    console.log('Service worker installed');
+                } else if (reg.active) {
+                    console.log('Service worker active');
+                }
 
-/**
- * Get a parameter by name from page URL.
- */
-getParameterByName = (name, url) => {
-  if (!url)
-    url = window.location.href;
-  name = name.replace(/[\[\]]/g, '\\$&');
-  const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
-    results = regex.exec(url);
-  if (!results)
-    return null;
-  if (!results[2])
-    return '';
-  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+            }).catch((error) => {
+            // registration failed
+            console.log('Registration failed with ' + error);
+        });
+    }
 }
-
