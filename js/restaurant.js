@@ -256,19 +256,30 @@ getParameterByName = (name, url) => {
  * Send review to server
  */
 const submitReview = (review) => {
-  fetch(`${DBHelper.DATABASE_URL}/reviews`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(review),
-  })
-  .then(res => res.json())
-  .catch(err => {
-    const error = `Error during send review because on ${err.status}`;
-    console.log(error);
-  });
+  fetch('http://localhost:1337/reviews', {
+          method: 'POST',
+          body: JSON.stringify(review),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }).then(function (response) {
+          console.log(response);
+          return response.json();
+        }).then(function (data) {
+
+          console.log("Successfully Added data ", data);
+
+          if (data) {
+            alert(data);
+            // Deleting data from indexDB
+            // idb.open('review', 1)
+            //   .then(function (db) {
+            //     var transaction = db.transaction('outbox', 'readwrite');
+            //     return transaction.objectStore('outbox').delete(reviewID);
+            //   })
+          }
+        })
 }
 /**
  * Prepend user review
@@ -278,10 +289,23 @@ const prependReview = (review) => {
   ul.prepend(createReviewHTML(review));
 }
 /**
+ * Catch restaurant id variable from URL
+ */
+const getVariable = (variable) => {
+   const query = window.location.search.substring(1);
+   const vars = query.split("&");
+   for (let i=0;i<vars.length;i++) {
+           const pair = vars[i].split("=");
+           if(pair[0] == variable){return pair[1];}
+   }
+   return(false);
+}
+/**
  * Add restaurant review
  */
-const catchReview = (restaurant = self.restaurant) => {
-  const id = restaurant.id;
+const catchReview = () => {
+
+  const id = getVariable("id");
   const name = document.getElementById("review-name").value;
   const rating = document.getElementById("review-rating").value;
   const message = document.getElementById("review-comment").value;
@@ -304,11 +328,10 @@ const catchReview = (restaurant = self.restaurant) => {
       console.log(offline_review);
       DBHelper.createIDBoutbox(id, review);
       prependReview(review);
-      console.log("Offline status - Review went in outbox waiting for sync")
+      console.log("Offline status - Review went in outbox waiting for sync");
+      return 'offline';
     }
   }
-
-  return false;
 }
 /**
  * Register service worker
@@ -324,6 +347,22 @@ registerServiceWorker = () => {
                 } else if (reg.active) {
                     console.log('Service worker active');
                 }
+
+                //Background sync
+                if ('sync' in reg) {
+
+                  const myForm = document.querySelector('#review-form');
+
+                  myForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const res = catchReview();
+                    if (res == 'offline') {
+                        reg.sync.register('outbox').then(() => {
+                        console.log('Sync registered');
+                      });
+                    }
+                  });
+              }
 
             }).catch((error) => {
             // registration failed

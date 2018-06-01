@@ -41,3 +41,20 @@ self.addEventListener('fetch', event => {
     )
   }
 });
+
+function sendOutbox() {
+  
+}
+
+self.addEventListener('sync', function (event) {
+  if (event.tag === 'outbox') {
+    event.waitUntil(sendOutbox()
+      .then(() => {
+        console.log("Background sync done!")
+      })
+      .catch((error) => {
+        console.log("Background sync error: ",error);
+      })
+    );
+  }
+});
