@@ -312,7 +312,7 @@ const catchReview = () => {
 
   if (name != "" && message != "") {
     const review = {
-      restaurant_id: id,
+      restaurant_id: Number(id),
       name: name,
       createdAt: Date.now(),
       updatedAt: Date.now(),

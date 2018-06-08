@@ -11,134 +11,87 @@ class DBHelper {
     const port = 1337 // Change this to your server port
     return `http://localhost:${port}`;
   }
+  /**
+   * Restaurant page URL.
+   */
+  static urlForRestaurant(restaurant) {
+    return (`./restaurant.html?id=${restaurant.id}`);
+  }
+
+  /**
+   * Restaurant image URL.
+   */
+  static imageUrlForRestaurant(restaurant) {
+    return (`/img/${restaurant.id}.jpg`);
+  }
 
   static myDB(restaurants) {
-    // Look for the compatible IndexedDB version
-    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+    idb.open('EAT_restaurant-review', 1, function (upgradeDB) {
 
-    if (!window.indexedDB) {
-        window.alert("Your browser doesn't support IndexedDB.");
-    }
+      upgradeDB.createObjectStore('Restaurants', {keyPath: 'id'}); //, {autoIncrement : true}
+      upgradeDB.createObjectStore('outboxDB', {keyPath: undefined}, {autoIncrement : true}) //
+      // In production 10 could be replaced  a number given from Google Maps results
+      for (var i = 1; i <= 10; i++) {
+        upgradeDB.createObjectStore('Reviews-' + i, {keyPath: 'id'});
+      }
+    });
 
-    // Open database
-    var open = indexedDB.open("EAT_restaurant-review", 1);
-
-    // Create table
-    open.onupgradeneeded = function() {
-      var db = open.result;
-      db.createObjectStore("Restaurants", { keyPath: "id" });
-      restaurants.forEach(function(restaurant) {
-        db.createObjectStore("Reviews-" + restaurant.id, { keyPath: "id" });
+    idb.open('EAT_restaurant-review', 1).then(function (db) {
+      var tx = db.transaction('Restaurants', 'readwrite');
+      var store = tx.objectStore('Restaurants');
+      return Promise.all(restaurants.map(function (item) {
+          return store.put(item);
+        })
+      ).then(function (e) {
+        console.log("Restaurants added");
+      }).catch(function (e) {
+        tx.abort();
+        console.log(e);
       });
-
-    };
-
-    open.onerror = function(err) {
-      console.error("IndexedDB error: " + err.target.errorCode);
-    }
-
-    open.onsuccess = function() {
-      // Start a new transaction
-      var db = open.result;
-      var tx = db.transaction("Restaurants", "readwrite");
-      var store = tx.objectStore("Restaurants");
-
-      // Add the restaurant data
-      restaurants.forEach(function(restaurant) {
-        store.put(restaurant);
-      });
-
-      // Close the db when the transaction is done
-      tx.oncomplete = function() {
-        db.close();
-      };
-    }
+    });
   }
 
   static createIDBreviews(restaurantId, reviews) {
-    // Look for the compatible IndexedDB version
-    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-
-    // Open (or create) the database
-    var open = indexedDB.open("EAT_restaurant-review", 1);
-
-
-    // Create the schema
-    open.onupgradeneeded = function() {
-      var db = open.result;
-      db.createObjectStore("Reviews-" + restaurantId, { keyPath: "id" });
-    };
-
-
-    open.onerror = function(err) {
-      console.error("IndexedDB error: " + err.target.errorCode);
-    };
-
-    open.onsuccess = function() {
-      // Start a new transaction
-      var db = open.result;
-      var tx = db.transaction("Reviews-" + restaurantId, "readwrite");
-      var store = tx.objectStore("Reviews-" + restaurantId);
-
-      // Add the restaurant data
-      reviews.forEach(function(review) {
-        store.put(review);
+    idb.open('EAT_restaurant-review', 1).then(function (db) {
+      var tx = db.transaction('Reviews-'+restaurantId, 'readwrite');
+      var store = tx.objectStore('Reviews-'+restaurantId);
+      return Promise.all(reviews.map(function (item) {
+          return store.put(item);
+        })
+      ).then(function (e) {
+        console.log("Reviews added");
+      }).catch(function (e) {
+        tx.abort();
+        console.log(e);
       });
-
-      // Close the db when the transaction is done
-      tx.oncomplete = function() {
-        db.close();
-      };
-    }
+    });
   }
 
-  static createIDBoutbox(restaurantId, review) {
-    // Look for the compatible IndexedDB version
-    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-
-    // Open (or create) the database
-    var open = indexedDB.open("EAT_outbox", 1);
-
-    // Create the schema
-    open.onupgradeneeded = function() {
-      var db = open.result;
-      db.createObjectStore("Reviews-" + restaurantId, { keyPath: "id", autoIncrement: true});
-    };
-
-    open.onerror = function(err) {
-      console.error("IndexedDB error: " + err.target.errorCode);
-    };
-
-    open.onsuccess = function() {
-      // Start a new transaction
-      var db = open.result;
-      var tx = db.transaction("Reviews-" + restaurantId, "readwrite");
-      var store = tx.objectStore("Reviews-" + restaurantId);
-
-      // Add the restaurant data
-      store.put(review);
-      //store.put({id: restaurantId, value: review});
-
-
-      // Close the db when the transaction is done
-      tx.oncomplete = function() {
-        db.close();
-      };
-    }
+	static createIDBoutbox(restaurantId, review) {
+		idb.open('EAT_restaurant-review', 1).then(function (db) {
+    	var tx = db.transaction('outboxDB', 'readwrite');
+    	var store = tx.objectStore('outboxDB');
+    	return new Promise(function(resolve, reject) {
+    		store.put(review, restaurantId);
+    	}).then(function (e) {
+    		console.log("Outbox added");
+    	}).catch(function (e) {
+        	tx.abort();
+        	console.log(e);
+    	});
+    });
   }
 
   static getData(callback) {
-    var restaurants = [];
-
     // Look for the compatible IndexedDB version
     var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     
-    if (!window.indexedDB) {
+    if (!indexedDB) {
         window.alert("Your browser doesn't support IndexedDB.");
     }
 
     // Open (or create) the database
-    var open = indexedDB.open("EAT_restaurant-review", 1);
+    var open = indexedDB.open("EAT_restaurant-review", 2);
 
 
     open.onsuccess = function() {
@@ -335,20 +288,6 @@ class DBHelper {
         callback(null, uniqueCuisines);
       }
     });
-  }
-
-  /**
-   * Restaurant page URL.
-   */
-  static urlForRestaurant(restaurant) {
-    return (`./restaurant.html?id=${restaurant.id}`);
-  }
-
-  /**
-   * Restaurant image URL.
-   */
-  static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.id}.jpg`);
   }
 
   /**

@@ -120,27 +120,6 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 }
 
 /**
- * Initialize Google map, called from HTML.
- */
- window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  let setTitle = () => {
-    const iFrameGoogleMaps = document.querySelector('#map iframe');
-    iFrameGoogleMaps.setAttribute('title', 'Google Maps with restaurants markers');
-  }
-  map.addListener('tilesloaded', setTitle);
-  updateRestaurants();
-}
-
-/**
  * Update page and map for current restaurants.
  */
 updateRestaurants = () => {
@@ -166,6 +145,27 @@ updateRestaurants = () => {
     }
   })
 }
+/**
+ * Initialize Google map, called from HTML.
+ */
+ window.initMap = () => {
+  let loc = {
+    lat: 40.722216,
+    lng: -73.987501
+  };
+  self.map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    center: loc,
+    scrollwheel: false
+  });
+  let setTitle = () => {
+    const iFrameGoogleMaps = document.querySelector('#map iframe');
+    iFrameGoogleMaps.setAttribute('title', 'Google Maps with restaurants markers');
+  }
+  map.addListener('tilesloaded', setTitle);
+  updateRestaurants();
+}
+
 
 /**
  * Clear current restaurants, their HTML and remove their map markers.
