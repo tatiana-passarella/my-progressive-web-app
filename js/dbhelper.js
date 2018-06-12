@@ -29,7 +29,8 @@ class DBHelper {
     idb.open('EAT_restaurant-review', 1, function (upgradeDB) {
 
       upgradeDB.createObjectStore('Restaurants', {keyPath: 'id'}); //, {autoIncrement : true}
-      upgradeDB.createObjectStore('outboxDB', {keyPath: undefined}, {autoIncrement : true}) //
+      upgradeDB.createObjectStore('outbox', {keyPath: 'id', autoIncrement: true});
+      //upgradeDB.createObjectStore('outboxDB', {keyPath: undefined, autoIncrement : true})
       // In production 10 could be replaced  a number given from Google Maps results
       for (var i = 1; i <= 10; i++) {
         upgradeDB.createObjectStore('Reviews-' + i, {keyPath: 'id'});
@@ -67,12 +68,12 @@ class DBHelper {
     });
   }
 
-	static createIDBoutbox(restaurantId, review) {
+	static createIDBoutbox(review) {
 		idb.open('EAT_restaurant-review', 1).then(function (db) {
-    	var tx = db.transaction('outboxDB', 'readwrite');
-    	var store = tx.objectStore('outboxDB');
+    	var tx = db.transaction('outbox', 'readwrite');
+    	var store = tx.objectStore('outbox');
     	return new Promise(function(resolve, reject) {
-    		store.put(review, restaurantId);
+    		store.put(review, undefined);
     	}).then(function (e) {
     		console.log("Outbox added");
     	}).catch(function (e) {

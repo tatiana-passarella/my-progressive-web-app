@@ -326,7 +326,7 @@ const catchReview = () => {
     }else{
       const offline_review = JSON.stringify(review);
       console.log(offline_review);
-      DBHelper.createIDBoutbox(id, review);
+      DBHelper.createIDBoutbox(review);
       prependReview(review);
       console.log("Offline status - Review went in outbox waiting for sync");
       return 'offline';

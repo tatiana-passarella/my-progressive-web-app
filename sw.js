@@ -47,19 +47,47 @@ self.addEventListener('fetch', event => {
 
 
 function sendOutbox() {
+	var myKey;
 	return idb.open('EAT_restaurant-review', 1).then(function (db) {
-		var transaction = db.transaction('outboxDB', 'readonly');
-		return transaction.objectStore('outboxDB').getAll();
+		var transaction = db.transaction('outbox', 'readonly');
+		var objectStore = transaction.objectStore('outbox');
+		return objectStore.getAll();
 	  	}).then(function (reviews) {
-			console.log(reviews);
+			//console.log(reviews);
 			return Promise.all(reviews.map(function (review) {
 			// Store id in a costant to delete it later 
 			//var reviewID = review.id;
 			//delete review.id;
-			idb.open('EAT_restaurant-review', 1).then(function (db) {
-		  		var transaction = db.transaction('outboxDB', 'readwrite');
-		  		var myKey = db.transaction('outboxDB').objectStore('outboxDB').get(key);
-			});
+			//idb.open('EAT_restaurant-review', 1).then(function (db) {
+		  	//	var transaction = db.transaction('outboxDB', 'readwrite');
+		  	//	myKey = transaction.objectStore('outboxDB').get(key);
+			//});
+
+			objectStore.openCursor().onsuccess = function(event) {  
+			  var cursor = event.target.result;  
+			  if (cursor) {  
+			  	console.log(cursor.key);
+			  	console.dir(cursor.value);
+			    cursor.continue();  
+			  }  
+			  else {  
+			  	console.log("Done with cursor");
+			  }  
+			};
+			idb.indexedDB.addData = function (objectStore, data, callback) {
+			    var db = idb.indexedDB.db;
+			    var trans = db.transaction([objectStore], READ_WRITE);
+			    var store = trans.objectStore(objectStore);
+			　    　
+			    var request = store.put(data);
+			    request.onsuccess = function (e) {
+			        callback(e.target.result);
+			    };
+			    request.onerror = function (e) {
+			        console.log("Error Adding: ", e);
+			        callback(undefined);
+			    };
+			};
 			
 
 			console.log("Review ready to send: ", review);
