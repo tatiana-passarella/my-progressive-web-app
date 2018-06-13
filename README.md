@@ -45,8 +45,11 @@ When testing offline review post do not use chrome devtools offline, instead tur
 ## Resources used as inspiration
 
 For indexedDB:<br />
+Stage 1 and 2
 https://gist.github.com/BigstickCarpet/a0d6389a5d0e3a24814b
 https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+Stage 3
+https://github.com/jakearchibald/idb
 
 For background sync:<br />
 https://developers.google.com/web/updates/2015/12/background-sync

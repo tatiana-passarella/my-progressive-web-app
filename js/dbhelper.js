@@ -28,9 +28,8 @@ class DBHelper {
   static myDB(restaurants) {
     idb.open('EAT_restaurant-review', 1, function (upgradeDB) {
 
-      upgradeDB.createObjectStore('Restaurants', {keyPath: 'id'}); //, {autoIncrement : true}
+      upgradeDB.createObjectStore('Restaurants', {keyPath: 'id'});
       upgradeDB.createObjectStore('outbox', {keyPath: 'id', autoIncrement: true});
-      //upgradeDB.createObjectStore('outboxDB', {keyPath: undefined, autoIncrement : true})
       // In production 10 could be replaced  a number given from Google Maps results
       for (var i = 1; i <= 10; i++) {
         upgradeDB.createObjectStore('Reviews-' + i, {keyPath: 'id'});
