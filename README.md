@@ -1,6 +1,7 @@
 # Udacity Mobile Web Specialist Certification Course
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
+https://www.udacity.com/course/mobile-web-specialist-nanodegree--nd024
 
 ## Project Brief
 
@@ -22,11 +23,11 @@ To achieve Udacity certification I made a restaurant reviews application with a 
 
 ## My App - Eat Restaurant Review
 
-<!--![Screenshot of application](screenshot.jpg)-->
+![Screenshot of application](screenshot.jpg)
 
 ### Lighthouse audits
 
-<!-- ![Screenshot of accesibility tests showing all tests passed](lighthouse.jpg)-->
+![Screenshot of accesibility tests showing all tests passed](Lighthouse_audit.jpg)
 
 
 ## Recommendations
