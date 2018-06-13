@@ -82,34 +82,43 @@ class DBHelper {
     });
   }
 
-  static getData(callback) {
-    // Look for the compatible IndexedDB version
-    var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+  // static getData(callback) {
+  //   // Look for the compatible IndexedDB version
+  //   var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     
-    if (!indexedDB) {
-        window.alert("Your browser doesn't support IndexedDB.");
-    }
+  //   if (!indexedDB) {
+  //       window.alert("Your browser doesn't support IndexedDB.");
+  //   }
 
-    // Open (or create) the database
-    var open = indexedDB.open("EAT_restaurant-review", 2);
+  //   // Open (or create) the database
+  //   var open = indexedDB.open("EAT_restaurant-review", 2);
 
 
-    open.onsuccess = function() {
-      var db = open.result;
-      var tx = db.transaction("Restaurants", "readwrite");
-      var store = tx.objectStore("Restaurants");
-      var getData = store.getAll();
+  //   open.onsuccess = function() {
+  //     var db = open.result;
+  //     var tx = db.transaction("Restaurants", "readwrite");
+  //     var store = tx.objectStore("Restaurants");
+  //     var getData = store.getAll();
 
-      getData.onsuccess = function() {
-        callback(null, getData.result);
-      }
-      // Close DB
-      tx.oncomplete = function() {
-        db.close();
-      };
-    }
+  //     getData.onsuccess = function() {
+  //       callback(getData.result);
+  //     }
+  //     // Close DB
+  //     tx.oncomplete = function() {
+  //       db.close();
+  //     };
+  //   }
 
-  }
+  // }
+  static getData (callback) {
+	idb.open('EAT_restaurant-review', 1).then(function (db) {
+
+        var tx = db.transaction('Restaurants', 'readonly');
+        var store = tx.objectStore('Restaurants');
+        return store.getAll();
+    });
+}
+
 
   /**
    * Fetch all restaurants.
@@ -128,7 +137,7 @@ class DBHelper {
         })
     } else {
       console.log('Offline state, using cache');
-      DBHelper.getData((error, restaurants) => {
+      DBHelper.getData((restaurants) => {
         if (restaurants.length > 0) {
           callback(null, restaurants);
         }
