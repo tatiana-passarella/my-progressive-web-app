@@ -46,12 +46,12 @@ When testing offline review post do not use chrome devtools offline, instead tur
 ## Resources used as inspiration
 
 For indexedDB:<br />
-Stage 1 and 2
-https://gist.github.com/BigstickCarpet/a0d6389a5d0e3a24814b
-https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
-Stage 3
-https://github.com/jakearchibald/idb
+Stage 1 and 2<br />
+https://gist.github.com/BigstickCarpet/a0d6389a5d0e3a24814b<br />
+https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB<br />
+Stage 3<br />
+https://github.com/jakearchibald/idb<br />
 
 For background sync:<br />
-https://developers.google.com/web/updates/2015/12/background-sync
+https://developers.google.com/web/updates/2015/12/background-sync<br />
 https://www.twilio.com/blog/2017/02/send-messages-when-youre-back-online-with-service-workers-and-background-sync.html
