@@ -10,6 +10,7 @@ self.addEventListener('install', event => {
 				'img/logo.svg',
 				'css/index.min.css',
 				'css/restaurant.min.css',
+				'js/idb.min.js',
 				'js/dbhelper.js',
 				'js/index.js',
 				'js/restaurant.js',
@@ -24,6 +25,8 @@ self.addEventListener('install', event => {
 				'img/8_s.jpg',
 				'img/9_s.jpg',
 				'img/10_s.jpg',
+				'img/app-icon-256.png',
+				'img/app-icon-512.png',
 			]);
 		})
 	)
@@ -33,16 +36,25 @@ self.addEventListener('activate', event => {
 	event.waitUntil(self.clients.claim());
 });
 
-self.addEventListener('fetch', event => {
-	const { request } = event;
-	if (!request.url.includes('restaurants')) {
-		event.respondWith(
-			caches
-				.match(event.request, { ignoreSearch: true })
-				.then(response => response || fetch(event.request))
-				.catch(err => console.log(err)),
-		)
-	}
+
+self.addEventListener('fetch', (event) => {
+  var request = event.request;
+  event.respondWith(
+    caches.match(request).then((response) => {
+      if (response) {
+        return response;
+      }
+      return fetch(request).then((response) => {
+        var responseToCache = response.clone();
+        caches.open('EAT_restaurant-review').then((cache) => {
+            cache.put(request, responseToCache).catch((err) => {
+              console.warn(request.url + ': ' + err.message);
+            });
+          }); 
+        return response;
+      });
+    })
+  );
 });
 
 function sendOutbox() {
