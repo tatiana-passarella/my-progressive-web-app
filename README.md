@@ -28,7 +28,7 @@ For the development Udacity provided a node server that send a JSON with restaur
 
 ## Offline Functionality
 <p align="center">
-![Screenshot of application](offline_functionality.gif)
+<img src="https://github.com/soulfood77/my-progressive-web-app/blob/master/offline_functionality.gif" alt="Offline functionality" />
 </p>
 ### Lighthouse audits
 
