@@ -5,7 +5,8 @@ https://www.udacity.com/course/mobile-web-specialist-nanodegree--nd024
 
 ## Project Brief
 
-To achieve Udacity certification I made a restaurant reviews application with a focus on accessibility and usability even offline. For developing Udacity provided a node server that send a JSON with restaurants informations. The index page include a restaurants list based on results of Google Maps location (in production could be the result of user's geolocation) and the application include multiple ways to filter the restaurants. In the restaurant info page there is the name, an image, address and operating hours with reviews. The reviews include the name of the reviewer, date of review, 5-star rating system, and comments. When viewing a specific restaurant, current reviews is displayed along with a form for the user to submit their own review. It's possible to send a review even offline with background synchronization.
+To achieve Udacity certification I made a restaurant reviews application with a focus on accessibility and usability even offline. 
+For the development Udacity provided a node server that send a JSON with restaurants informations. The index page include a restaurants list based on results of Google Maps location (in production could be the result of user's geolocation) and the application include multiple ways to filter the restaurants. In the restaurant info page there is the name, an image, address and operating hours with reviews. The reviews include the name of the reviewer, date of review, 5-star rating system, and comments. When viewing a specific restaurant, current reviews is displayed along with a form for the user to submit their own review. It's possible to send a review even offline with background synchronization.
 
 
 ## App feature
@@ -24,6 +25,10 @@ To achieve Udacity certification I made a restaurant reviews application with a 
 ## My App - Eat Restaurant Review
 
 ![Screenshot of application](screenshot.jpg)
+
+## Offline Functionality
+
+![Screenshot of application](offline_functionality.gif)
 
 ### Lighthouse audits
 
