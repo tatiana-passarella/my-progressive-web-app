@@ -91,11 +91,9 @@ return idb.open('EAT_restaurant-review', 1).then(function (db) {
 
 self.addEventListener('sync', function (event) {
 	if (event.tag === 'outbox') {
-		event.waitUntil(sendOutbox()
-			.then(() => {
+		event.waitUntil(sendOutbox().then(() => {
 				console.log("Background sync done!")
-			})
-			.catch((error) => {
+			}).catch((error) => {
 				console.log("Background sync error: ",error);
 			})
 		);

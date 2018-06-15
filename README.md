@@ -11,15 +11,15 @@ For the development Udacity provided a node server that send a JSON with restaur
 
 ## App feature
 
-- Full offline application including restaurant information, customer reviews and a review form.
+- **Full offline application** with restaurant informations, customer reviews and a review form.
 - Background sycn for retry posting data when user offline.
 - Lighthouse score over 90 for "Performance", "Progressive Web App" and "Accessibility".
 - Made with **responsive design** to ensure a good user experience for all devices.
 - All content-related images include an appropriate alternate text.
 - Focus is appropriately managed allowing users to tab through each elements of the page.
 - A skip link is applied on Google Maps to allow users to skip it and quickly access the document's main. 
-- Elements on the page use the appropriate semantic elements according with ARIA roles best practices.
-- Design made with focus on accessibility.
+- Elements on the page use the appropriate semantic elements according with **ARIA roles** best practices.
+- Design made with focus on **accessibility**.
 
 
 ## My App - Eat Restaurant Review
@@ -27,9 +27,9 @@ For the development Udacity provided a node server that send a JSON with restaur
 ![Screenshot of application](screenshot.jpg)
 
 ## Offline Functionality
-
+<p align="center">
 ![Screenshot of application](offline_functionality.gif)
-
+</p>
 ### Lighthouse audits
 
 ![Screenshot of accesibility tests showing all tests passed](Lighthouse_audit.jpg)
@@ -41,7 +41,7 @@ Download the node server provided here:<br />
 -> https://github.com/udacity/mws-restaurant-stage-3
 and follow the included instructions into README to run it
 
-To have localhost I used "npm serve" on port 8000
+To have localhost I used "npm serve" https://www.npmjs.com/package/serve on port 8000<br />
 
 -> serve -p 8000
 
