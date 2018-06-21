@@ -1,4 +1,4 @@
-# Udacity Mobile Web Specialist Certification Course
+# Udacity - Mobile Web Specialist Nanodegree
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 https://www.udacity.com/course/mobile-web-specialist-nanodegree--nd024
@@ -12,7 +12,7 @@ For the development Udacity provided a node server that send a JSON with restaur
 ## App feature
 
 - **Full offline application** with restaurant informations, customer reviews and a review form.
-- Background sycn for retry posting data when user offline.
+- **Background sycn** for retry posting data when user offline.
 - Lighthouse score over 90 for "Performance", "Progressive Web App" and "Accessibility".
 - Made with **responsive design** to ensure a good user experience for all devices.
 - All content-related images include an appropriate alternate text.
