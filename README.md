@@ -32,14 +32,14 @@ For the development Udacity provided a node server that send a JSON with restaur
 </p>
 ### Lighthouse audits
 
-![Screenshot of accesibility tests showing all tests passed](Lighthouse_audit.jpg)
+![Screenshot of accesibility tests showing all tests passed](lighthouse.jpg)
 
 
 ## Recommendations
 
-Download the node server provided here:<br />
--> https://github.com/udacity/mws-restaurant-stage-3
-and follow the included instructions into README to run it
+Server made by Udacity https://github.com/udacity/mws-restaurant-stage-3<br />
+
+-> Go to the "server" folder and follow the included instructions into README to run it
 
 To have localhost I used "npm serve" https://www.npmjs.com/package/serve on port 8000<br />
 
