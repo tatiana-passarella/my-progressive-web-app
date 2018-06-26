@@ -30,8 +30,8 @@ For the development Udacity provided a node server that send a JSON with restaur
 <p align="center">
 <img src="https://github.com/soulfood77/my-progressive-web-app/blob/master/offline_functionality.gif" alt="Offline functionality" />
 </p>
-### Lighthouse audits
 
+### Lighthouse audits
 ![Screenshot of accesibility tests showing all tests passed](lighthouse.jpg)
 
 
