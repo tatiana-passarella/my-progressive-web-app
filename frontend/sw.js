@@ -1,4 +1,4 @@
-importScripts('/js/idb.min.js');
+self.importScripts('/js/idb.min.js');
 
 self.addEventListener('install', event => {
 	event.waitUntil(
